@@ -2,7 +2,7 @@
 #define DUMMY_HTTP_H_INCLUDED
 
 #define BUFFER_SIZE		1024
-#define HTTP_PORT 		80
+#define HTTP_PORT 12345
 #define MAX_CONNECTIONS 5
 
 #define DUMMY_REQUEST 	"GET / HTTP/1.0r\n\
