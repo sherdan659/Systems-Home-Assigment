@@ -35,6 +35,6 @@ int main(int argc, char *argv[]) {
 	memset(&serv_addr, 0, sizeof(serv_addr)); // reserves memory for the server address
 	serv_addr.sin_family = AF_INET; //sets the address to ipv4
 	memcpy(&serv_addr.sin_addr, url->h_addr_list[0], url->h_length); //copys the url of the server and address structure
-	serv_addr.sin_port = htons(HTTP_PORT);
+	serv_addr.sin_port = htons(HTTP_PORT); 
 
 }
