@@ -27,10 +27,9 @@ int main(int argc, char *argv[]) {
 	serv_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK); //Set the server's IP address to be the loopback address (127.0.0.1)
 
 	do {
-		serv_addr.sin_port = htons(port); // alines the server port number to the server socket   and htons(port) makes sure there in the correct byte order for networking.
+		serv_addr.sin_port = htons(port);
 		fprintf(stdout, "Attempting bind() to port %d...\n", port++);
 	} while (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0);
-
 
 	listen(sockfd, MAX_CONNECTIONS);
 	clilen = sizeof(cli_addr);
