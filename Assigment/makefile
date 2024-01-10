@@ -1,11 +1,12 @@
-all: clean client server
+build_all: clean http_client server
 
-client:
-	gcc -Wall -o client client.c
+server: 
+	gcc -Wall -o server dummy_http_server.c
 
-server:
-	gcc -Wall -o server server.c
+http_client: 
+	gcc -Wall -o http_client dummy_http_client.c
 
-clean:
-	-rm client
-	-rm server
+clean: 
+	-rm http_client server
+
+rebuild_all: clean build_all
