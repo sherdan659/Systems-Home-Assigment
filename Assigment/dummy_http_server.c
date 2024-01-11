@@ -60,17 +60,16 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, "ERROR: recv() failed\n");
             return -6;
         }
+		time_t t1;
+		time(&t1);
 
         printf("Received: %s\n", buffer);
 
-        // Check if the received message is "GETTIME"
-        if (strcmp(buffer, "GETTIME") == 0) {
-            // Handle GETTIME request
-            handleGETTIME(newsockfd);
-        } 
 
+        if (strcmp(buffer, "GETTIME") == 0) {
+            GETTIME(newsockfd, t1);
+        } 
 		close(newsockfd);
-	
 	}
 
 	close(sockfd);
@@ -78,17 +77,23 @@ int main(int argc, char *argv[]) {
 }
 
 
-void handleGETTIME(int client_socket) {
-    time_t current_time;
-    char time_string[100];
+void GETTIME(int client_socket, int t1) {
+	char time_str_t1[100];
 
-    // Get current time
-    time(&current_time);
-    strftime(time_string, sizeof(time_string), "Current time: %Y-%m-%d %H:%M:%S", localtime(&current_time));
+    
+	
+	time_t t2;
+    time(&t2);
+	char time_str_t2[100];
 
-    // Send the time to the client
-    send((void *)client_socket, time_string, strlen(time_string), 0);
 
-    // Optionally, you can print the time on the server side
-    printf("Sending time: %s\n", time_string);
+    // Send the timestamps to the client
+	send((void *)client_socket, t2, strlen(t2), 0);
+    send((void *)client_socket, t1, strlen(t1), 0);
+
+
+    // Optionally, you can print the timestamps on the server side
+	printf("Sending time t2: %s\n", time_str_t2);
+    printf("Sending time t1: %s\n", time_str_t1);
+
 }
