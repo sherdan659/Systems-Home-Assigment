@@ -8,10 +8,19 @@
 
 void GETTIME(int sockfd);
 
+struct TimeStamps {
+    char time_str_t0[100];
+    char time_str_t1[100];
+    char time_str_t2[100];
+    char time_str_t3[100];
+}TimeList;
+
 int main(int argc, char *argv[]) {
 	int sockfd;
 	struct sockaddr_in serv_addr;
 	struct hostent *url;
+
+
 
 	sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (sockfd < 0) {
@@ -41,6 +50,9 @@ int main(int argc, char *argv[]) {
 
 	if (strcmp(user_input, "GETTIME\n") == 0) {
 		printf("User entered GETTIME\n");
+
+
+
 		GETTIME(sockfd);
 
 	} else {
@@ -88,24 +100,25 @@ void GETTIME(int sockfd) {
     }
 
 
-    char time_str_t0[100], time_str_t1[100], time_str_t2[100], time_str_t3[100];
-    strftime(time_str_t0, sizeof(time_str_t0), "%Y-%m-%d %H:%M:%S", localtime(&t0));
-    strftime(time_str_t1, sizeof(time_str_t1), "%Y-%m-%d %H:%M:%S", localtime(&t1));
-    strftime(time_str_t2, sizeof(time_str_t2), "%Y-%m-%d %H:%M:%S", localtime(&t2));
-    strftime(time_str_t3, sizeof(time_str_t3), "%Y-%m-%d %H:%M:%S", localtime(&t3));
+    strftime(TimeList.time_str_t0, sizeof(TimeList.time_str_t0), "%Y-%m-%d %H:%M:%S", localtime(&t0));
+    strftime(TimeList.time_str_t1, sizeof(TimeList.time_str_t1), "%Y-%m-%d %H:%M:%S", localtime(&t1));
+    strftime(TimeList.time_str_t2, sizeof(TimeList.time_str_t2), "%Y-%m-%d %H:%M:%S", localtime(&t2));
+    strftime(TimeList.time_str_t3, sizeof(TimeList.time_str_t3), "%Y-%m-%d %H:%M:%S", localtime(&t3));
 
     // Print t0, t1, t2, t3
-    printf("t0: %s\n", time_str_t0);
-    printf("t1: %s\n", time_str_t1);
-    printf("t2: %s\n", time_str_t2);
-    printf("t3: %s\n", time_str_t3);
+    printf("t0: %s\n", TimeList.time_str_t0);
+    printf("t1: %s\n", TimeList.time_str_t1);
+    printf("t2: %s\n", TimeList.time_str_t2);
+    printf("t3: %s\n", TimeList.time_str_t3);
 
 
 
-    int offset = ((t1 - t0) + (t2 - t3)) / 2;
+    int offset = ((TimeList.time_str_t1 - TimeList.time_str_t0) + (TimeList.time_str_t2 - TimeList.time_str_t3)) / 2;
     printf("Offset: %d\n", offset);
 
-    int roundTripDelay = (t3 - t0) - (t2 - t1);
+    int roundTripDelay = (TimeList.time_str_t3 - TimeList.time_str_t0) - (TimeList.time_str_t2 - TimeList.time_str_t1);
     printf("Round Trip Delay: %d\n", roundTripDelay);
+
+
 
 }
