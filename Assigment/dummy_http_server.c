@@ -77,19 +77,21 @@ int main(int argc, char *argv[]) {
 }
 
 
-void GETTIME(int client_socket, int t1) {
-	char time_str_t1[100];
+void GETTIME(int client_socket, time_t t1) {
 
-    
 	
 	time_t t2;
     time(&t2);
-	char time_str_t2[100];
+	char time_str_t2[100], time_str_t1[100];
+
+	strftime(time_str_t2, sizeof(time_str_t2), "%Y-%m-%d %H:%M:%S", localtime(&t2));
+	strftime(time_str_t1, sizeof(time_str_t1), "%Y-%m-%d %H:%M:%S", localtime(&t1));
+    
 
 
     // Send the timestamps to the client
-	send((void *)client_socket, t2, strlen(t2), 0);
-    send((void *)client_socket, t1, strlen(t1), 0);
+	send((void *)client_socket, &t2, sizeof(t2), 0);
+    send((void *)client_socket, &t1, sizeof(t1), 0);
 
 
     // Optionally, you can print the timestamps on the server side

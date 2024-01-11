@@ -61,38 +61,37 @@ int GETTIME(int sockfd) {
     char buffer[BUFFER_SIZE];
 
     printf("Sending request: %s\n", request);
+
     // t0 time of request
     time_t t0;
     time(&t0);
-	
-
     num_bytes = send(sockfd, request, strlen(request), 0);
     if (num_bytes < 0) {
-        fprintf(stderr, "ERROR: Failed writing to socket\n");
+        fprintf(stderr, "ERROR: Failed sending request\n");
         return -1;
     }
     
 
-    //reciving t1, t2
+    //reciving t2, 
+    time_t t1, t2;
     memset(buffer, 0, BUFFER_SIZE);
-    num_bytes = recv(sockfd, buffer, BUFFER_SIZE - 1, 0);
+
+    num_bytes = recv(sockfd, &t2, sizeof(t2), 0);
     time_t t3;
     time(&t3);
     if (num_bytes < 0) {
-        fprintf(stderr, "ERROR: Failed reading t1 from socket\n");
+        fprintf(stderr, "ERROR: Failed reading t2 from socket\n");
         return -2;
     }
-    int t1 = atoi(buffer);
-    printf("Received t1 from server: %d\n", t1);
 
-    memset(buffer, 0, BUFFER_SIZE);
-    num_bytes = recv(sockfd, buffer, BUFFER_SIZE - 1, 0);
+    //reciving t1
+    num_bytes = recv(sockfd, &t1, sizeof(t1), 0);
     if (num_bytes < 0) {
-        fprintf(stderr, "ERROR: Failed reading t2 from socket\n");
+        fprintf(stderr, "ERROR: Failed reading t1 from socket\n");
         return -3;
     }
-    int t2 = atoi(buffer);
-    printf("Received t2 from server: %d\n", t2);
+
+
     char time_str_t0[100], time_str_t1[100], time_str_t2[100], time_str_t3[100];
     strftime(time_str_t0, sizeof(time_str_t0), "%Y-%m-%d %H:%M:%S", localtime(&t0));
     strftime(time_str_t1, sizeof(time_str_t1), "%Y-%m-%d %H:%M:%S", localtime(&t1));
