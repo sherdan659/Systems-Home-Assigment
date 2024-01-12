@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
         }
 		time_t t1;
 		time(&t1);
-
+		//usleep(5500000);
         printf("Received: %s\n", buffer);
 
 
@@ -77,8 +77,9 @@ void GETTIME(int client_socket, time_t t1) {
 	
 	time_t t2;
     time(&t2);
-	char time_str_t2[100], time_str_t1[100];
 
+	char time_str_t2[100], time_str_t1[100];
+	//usleep(5500000);
 	strftime(time_str_t2, sizeof(time_str_t2), "%Y-%m-%d %H:%M:%S", localtime(&t2));
 	strftime(time_str_t1, sizeof(time_str_t1), "%Y-%m-%d %H:%M:%S", localtime(&t1));
     
