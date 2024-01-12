@@ -1,4 +1,4 @@
-build_all: http_client server
+build_all: http_client server demo_client
 
 http_client: 
 	gcc -Wall -o http_client dummy_http_client.c
@@ -7,7 +7,7 @@ server:
 	gcc -Wall -o server dummy_http_server.c
 
 clean_all: 
-	-rm http_client server
+	-rm http_client server democlient
 
 rebuild_all: clean_all build_all
 
@@ -20,3 +20,6 @@ release:
 	mkdir -p bin/rel
 	gcc -Wall -O2 -o bin/rel/http_client dummy_http_client.c
 	gcc -Wall -O2 -o bin/rel/server dummy_http_server.c
+
+demo_client:
+	gcc -Wall -o democlient -DDEMO dummy_http_client.c

@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include "dummy_http.h"
 
+
 void GETTIME(int sockfd, const char *filename);
 void logToFile(const char *filename, const char *data);
 void closefile(const char *filename);
@@ -127,6 +128,14 @@ void GETTIME(int sockfd, const char *filename) {
     strftime(TimeList.time_str_t3, sizeof(TimeList.time_str_t3), "%Y-%m-%d %H:%M:%S", localtime(&t3));
 
     // Print t0, t1, t2, t3  and save it to log
+    
+
+
+    #ifdef DEMO
+
+    int roundTripDelay = (TimeList.time_str_t3 - TimeList.time_str_t0) - (TimeList.time_str_t2 - TimeList.time_str_t1);
+    int offset = ((TimeList.time_str_t1 - TimeList.time_str_t0) + (TimeList.time_str_t2 - TimeList.time_str_t3)) / 2;
+
     char logMessage[150];
     printf("t0: %s\n", TimeList.time_str_t0);
     snprintf(logMessage, sizeof(logMessage), "t0 %s", TimeList.time_str_t0);
@@ -141,11 +150,9 @@ void GETTIME(int sockfd, const char *filename) {
     snprintf(logMessage, sizeof(logMessage), "t3 %s", TimeList.time_str_t3);
     logToFile(filename, logMessage);
 
-    int offset = ((TimeList.time_str_t1 - TimeList.time_str_t0) + (TimeList.time_str_t2 - TimeList.time_str_t3)) / 2;
     printf("Offset: %d\n", offset);
-
-    int roundTripDelay = (TimeList.time_str_t3 - TimeList.time_str_t0) - (TimeList.time_str_t2 - TimeList.time_str_t1);
     printf("Round Trip Delay: %d\n", roundTripDelay);
+    #endif  
 
 }
 

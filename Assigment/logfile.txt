@@ -2,7 +2,3 @@ User entered GETTIME
 Request: GETTIME
 Attempt to receive t2 from server
 Attempt to receive t1 from server
-t0 2024-01-12 16:19:28
-t1 2024-01-12 16:19:28
-t2 2024-01-12 16:19:28
-t3 2024-01-12 16:19:28

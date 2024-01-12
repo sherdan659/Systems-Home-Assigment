@@ -1,0 +1,14 @@
+COMMAND LIST
+
+make rebuild_all
+make build_all
+make debug
+make release
+
+./server
+./http_client
+
+gcc -Wall -o democlient -DDEMO dummy_http_client.c
+./democlient
+
+./http_client /home/student/Desktop/HomeAssigment/Assigment/logfile.txt
