@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 
 	int so_reuse_enabled = 1;
 	if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &so_reuse_enabled, sizeof(int)) < 0) {
-		fprintf(stderr, "setsockopt(SO_REUSEADDR) failed");
+		fprintf(stderr, "ERROR: To set socket");
 		return -2;
 	}
 
@@ -31,13 +31,13 @@ int main(int argc, char *argv[]) {
 	serv_addr.sin_port = htons(HTTP_PORT);
 
 	if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-		fprintf(stderr, "ERROR: bind() failed\n");
+		fprintf(stderr, "ERROR: binding socket\n");
 		fprintf(stderr, "Error code: %s\n", strerror(errno));
 		return -3;
 	}
 
 	if (listen(sockfd, MAX_CONNECTIONS) < 0) {
-		fprintf(stderr, "ERROR: listen() failed\n");
+		fprintf(stderr, "ERROR: listening for client\n");
 		fprintf(stderr, "Error code: %s\n", strerror(errno));
 		return -4;
 	}
@@ -46,14 +46,14 @@ int main(int argc, char *argv[]) {
 
         newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &clilen);
         if (newsockfd < 0) {
-            fprintf(stderr, "ERROR: accept() failed\n");
+            fprintf(stderr, "ERROR: accepting client\n");
             return -5;
         }
 
         memset(buffer, 0, BUFFER_SIZE);
         num_bytes = recv(newsockfd, buffer, BUFFER_SIZE-1, 0);
         if (num_bytes < 0) {
-            fprintf(stderr, "ERROR: recv() failed\n");
+            fprintf(stderr, "ERROR: reciving client request\n");
             return -6;
         }
 		time_t t1;

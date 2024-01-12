@@ -6,7 +6,6 @@
 #include <time.h>
 #include <stdlib.h>
 #include "dummy_http.h"
-#include <stdio.h>
 
 void GETTIME(int sockfd, const char *filename);
 void logToFile(const char *filename, const char *data);
@@ -42,7 +41,7 @@ int main(int argc, char *argv[]) {
 
 	url = gethostbyname("127.0.0.1");
     if (url == NULL) {
-        fprintf(stderr, "ERROR: Host not found\n");
+        fprintf(stderr, "ERROR: Cant find host\n");
         return 2;
     }
 
@@ -58,7 +57,11 @@ int main(int argc, char *argv[]) {
 
 	printf("Enter command GETTIME to get time:  ");
 	char user_input[20];
-	fgets(user_input, sizeof(user_input), stdin);
+
+    if (fgets(user_input, sizeof(user_input), stdin) == NULL) {
+        fprintf(stderr, "Error reading input\n");
+        return 4;
+    }
 
 	if (strcmp(user_input, "GETTIME\n") == 0) {
 		printf("User entered GETTIME\n");
@@ -165,8 +168,10 @@ void logToFile(const char *filename, const char *data) {
 }
 
 void closefile(const char *filename) {
-    FILE *file = fopen(filename, "r");
-    if (file != NULL) {
-        fclose(file); 
+    FILE *file = fopen(filename, "a");
+    if (file == NULL) {
+        perror("Error opning file");
+        return;
     }
+    fclose(file);
 }
